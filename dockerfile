@@ -1,17 +1,16 @@
-# Use the official Nginx image as a base image
-FROM nginx:latest
+# Start from a base image, such as a simple Linux environment or an official image like Ubuntu
+FROM ubuntu:20.04
 
 # Set the working directory inside the container
-WORKDIR /usr/share/nginx/html
+WORKDIR /app
 
-# Remove the default Nginx content
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copy the HTML, CSS, and JS files to the Nginx web directory
+# Copy all files from the current directory (same as Dockerfile) to /app in the container
 COPY . .
 
-# Expose port 80 for HTTP
-EXPOSE 80
+# Install any dependencies you might need (e.g., if your files are a Node.js app or need other software)
+RUN apt-get update && apt-get install -y \
+    # Add dependencies here (example: curl, git, etc.)
+    && apt-get clean
 
-# Nginx will run in the background by default, so no need to specify a command
-# Nginx starts automatically when the container runs
+# Specify the default command (if applicable, like starting a service or app)
+CMD ["bash"]   # If you want to keep it interactive for now, or change as per your use case
